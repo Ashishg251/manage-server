@@ -1,0 +1,23 @@
+{
+  "name": "manage-server",
+  "version": "1.0.0",
+  "description": "Practice project for typescript",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node src/Launcher.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ashishg251/manage-server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ashishg251/manage-server/issues"
+  },
+  "homepage": "https://github.com/Ashishg251/manage-server#readme",
+  "dependencies": {
+    "typescript": "^4.1.2"
+  }
+}
