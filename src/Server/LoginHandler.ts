@@ -1,7 +1,8 @@
 import { rejects } from "assert";
 import { IncomingMessage, ServerResponse } from "http";
+import { Account, Handler } from "./Model";
 
-export class LoginHandler {
+export class LoginHandler implements Handler {
     private req: IncomingMessage;
     private res: ServerResponse;
 
@@ -16,7 +17,7 @@ export class LoginHandler {
         console.log("password = ", body.password);
     }
 
-    private getRequestBody(): Promise<any> {
+    private getRequestBody(): Promise<Account> {
         return new Promise((resolve, reject)=>{
             let body = '';
             this.req.on('data', (data:string)=>{
