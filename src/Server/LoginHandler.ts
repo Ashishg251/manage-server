@@ -27,12 +27,9 @@ export class LoginHandler extends BaseRequestHandler {
             const body: Account = await this.getRequestBody();
             const sessionToken = await this.tokenGenerator.generateToken(body);
             if(sessionToken) {
-                this.res.statusCode = HTTP_CODES.CREATED;
-                this.res.writeHead(HTTP_CODES.CREATED, {'Content-Type': 'application/json'});
-                this.res.write(JSON.stringify(sessionToken));
+                this.respondJsonObject(HTTP_CODES.CREATED, sessionToken);
             } else {
-                this.res.statusCode = HTTP_CODES.NOT_FOUND;
-                this.res.write('Wrong username or password');
+                this.handleNotFound();
             }
         } catch (error) {
             this.res.statusCode = HTTP_CODES.BAD_REQUEST;
