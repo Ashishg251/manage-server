@@ -5,7 +5,19 @@ Content-Type: application/json
     "username": "user1",
     "password": "password1"
 }
-###
 
+###
 GET http://localhost:8080/users?id=john@doe251
 Authorization: gmkt5mz6ia4
+
+###
+PUT http://localhost:8080/users HTTP/1.1
+Authorization: gmkt5mz6ia4
+Content-Type: application/json
+
+{
+    "name": "Jim Carry",
+    "age": 23,
+    "email": "jim.carry@example.com",
+    "workingPosition": 2
+}

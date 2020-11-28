@@ -1,5 +1,5 @@
 import { IncomingMessage, ServerResponse } from "http";
-import { AccessRights, HTTP_CODES, HTTP_METHODS } from "../Shared/Model";
+import { AccessRights, HTTP_CODES, HTTP_METHODS, User } from "../Shared/Model";
 import { UserDbAccess } from "../User/UserDBAccess";
 import { BaseRequestHandler } from "./BaseRequestHandler";
 import { TokenValidator } from "./Model";
@@ -20,16 +20,34 @@ export class UserHandler extends BaseRequestHandler {
             case HTTP_METHODS.GET:
                 await this.handleGet();
                 break;
+            case HTTP_METHODS.PUT:
+                await this.handlePut();
+                break;
             default:
                 this.handleNotFound();
                 break;
         }
     }
+
+    private async handlePut() {
+        try {
+            const operationAuthorized = await this.operationAuthorized(AccessRights.CREATE);
+            if(operationAuthorized) {
+                const user: User = await this.getRequestBody();
+                await this.userDbAccess.putUser(user);
+                this.respondText(HTTP_CODES.CREATED, `user ${user.name} is created`);
+            } else {
+                this.respondUnauthorizedRequest('missing or invalid authentication');
+            }
+        } catch (error) {
+            this.respondBadRequest(`Error: ${error.message}`);
+        }
+    }
     
     private async handleGet() {
         try {
-            const operationPermission = await this.operationAuthorized(AccessRights.READ);
-            if(operationPermission) {
+            const operationAuthorized = await this.operationAuthorized(AccessRights.READ);
+            if(operationAuthorized) {
                 const parsedUrl = Utils.getUrlParams(this.req.url);
                 const userId = parsedUrl?.query.id;
                 if (userId) {
