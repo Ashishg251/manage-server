@@ -19,7 +19,7 @@ export class LoginHandler implements Handler {
                 await this.handlePost();
                 break;
             default:
-                await this.handleNotFound();
+                this.handleNotFound();
                 break;
         }
     }
@@ -42,7 +42,7 @@ export class LoginHandler implements Handler {
         }
     }
 
-    private async handleNotFound() {
+    private handleNotFound() {
         this.res.statusCode = HTTP_CODES.NOT_FOUND;
         this.res.write('Request not found');
     }
