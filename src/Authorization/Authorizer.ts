@@ -1,6 +1,6 @@
 import { Account, SessionToken, TokenGenerator } from "../Server/Model";
 import { SessionTokenDbAccess } from "./SessionTokenDbAccess";
-import { UserCredentialsDBAccess } from "./UserCredentialsDBAccess";
+import { UserCredentialsDBAccess } from "./UserCredentialsDbAccess";
 
 export class Authorizer implements TokenGenerator {
 

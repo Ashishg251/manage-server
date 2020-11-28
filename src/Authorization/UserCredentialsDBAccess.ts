@@ -10,7 +10,7 @@ export class UserCredentialsDBAccess {
         this.nedb.loadDatabase();
     }
 
-    public   putUserCredential(userCredentials: UserCredentials): Promise<any> {
+    public async putUserCredential(userCredentials: UserCredentials): Promise<any> {
         return new Promise((resolve, reject)=>[
             this.nedb.insert(userCredentials, (error: Error | null, docs: any)=>{
                 if (error) {
