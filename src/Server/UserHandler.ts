@@ -1,16 +1,12 @@
 import { IncomingMessage, ServerResponse } from "http";
-import { parse } from "url";
-import { HTTP_CODES, HTTP_METHODS } from "../Shared/Model";
-import { Handler } from "./Model";
+import { HTTP_METHODS } from "../Shared/Model";
+import { BaseRequestHandler } from "./BaseRequestHandler";
 import { Utils } from "./Utils";
 
-export class UserHandler implements Handler {
-    private req: IncomingMessage;
-    private res: ServerResponse;
+export class UserHandler extends BaseRequestHandler {
 
     constructor(req: IncomingMessage, res: ServerResponse) {
-        this.req = req;
-        this.res = res;
+        super(req, res);
     }
 
     public async handleRequest(): Promise<void> {
@@ -27,10 +23,5 @@ export class UserHandler implements Handler {
     private handleGet() {
         const parsedUrl = Utils.getUrlParams(this.req.url);
         console.log(`queryId = ${parsedUrl?.query.id}`);
-    }
-
-    private handleNotFound() {
-        this.res.statusCode = HTTP_CODES.NOT_FOUND;
-        this.res.write('Request not found');
     }
 }
