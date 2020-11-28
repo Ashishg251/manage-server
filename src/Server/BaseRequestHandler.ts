@@ -38,7 +38,12 @@ export abstract class BaseRequestHandler {
     }
 
     protected respondBadRequest(message: string) {
-        this.res.statusCode = HTTP_CODES.NOT_FOUND;
+        this.res.statusCode = HTTP_CODES.BAD_REQUEST;
+        this.res.write(message);
+    }
+    
+    protected respondUnauthorizedRequest(message: string) {
+        this.res.statusCode = HTTP_CODES.UNAUTHORIZED_REQUEST;
         this.res.write(message);
     }
 

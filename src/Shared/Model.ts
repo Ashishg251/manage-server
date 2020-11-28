@@ -16,7 +16,8 @@ export enum HTTP_CODES {
     CREATED = 201,
     NOT_FOUND = 404,
     BAD_REQUEST = 400,
-    ACCESS_DENIED = 403
+    ACCESS_DENIED = 403,
+    UNAUTHORIZED_REQUEST = 401
 }
 
 export enum HTTP_METHODS {

@@ -32,8 +32,7 @@ export class LoginHandler extends BaseRequestHandler {
                 this.handleNotFound();
             }
         } catch (error) {
-            this.res.statusCode = HTTP_CODES.BAD_REQUEST;
-            this.res.write(`Error: ${error.message}`);
+            this.respondBadRequest(`Error: ${error.message}`);
         }
     }
 }

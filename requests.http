@@ -7,4 +7,5 @@ Content-Type: application/json
 }
 ###
 
-GET http://localhost:8080/users?id=john@oe251
+GET http://localhost:8080/users?id=john@doe251
+Authorization: gmkt5mz6ia4
