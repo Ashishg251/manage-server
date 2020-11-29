@@ -49,16 +49,18 @@ export class UserHandler extends BaseRequestHandler {
             const operationAuthorized = await this.operationAuthorized(AccessRights.READ);
             if(operationAuthorized) {
                 const parsedUrl = Utils.getUrlParams(this.req.url);
-                const userId = parsedUrl?.query.id;
-                if (userId) {
-                    const user = await this.userDbAccess.getUserById(userId as string);
+                if (parsedUrl?.query.id) {
+                    const user = await this.userDbAccess.getUserById(parsedUrl?.query.id as string);
                     if (user) {
                         this.respondJsonObject(HTTP_CODES.OK, user);
                     } else {
                         this.handleNotFound();
                     }
+                } else if(parsedUrl?.query.name) {
+                    const users = await this.userDbAccess.getUserByName(parsedUrl?.query.name as string);
+                    this.respondJsonObject(HTTP_CODES.OK, users);
                 } else {
-                    this.respondBadRequest('User ID is not present in request');
+                    this.respondBadRequest('User ID or Name is not present in request');
                 }
             } else {
                 this.respondUnauthorizedRequest('missing or invalid authentication');

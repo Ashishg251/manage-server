@@ -11,6 +11,10 @@ GET http://localhost:8080/users?id=john@doe251
 Authorization: gmkt5mz6ia4
 
 ###
+GET http://localhost:8080/users?namedf=J HTTP/1.1
+Authorization: xds5h4xy0yj
+
+###
 PUT http://localhost:8080/users HTTP/1.1
 Authorization: gmkt5mz6ia4
 Content-Type: application/json
