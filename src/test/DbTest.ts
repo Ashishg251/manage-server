@@ -1,5 +1,5 @@
-import { UserCredentialsDBAccess } from "../src/Authorization/UserCredentialsDbAccess";
-import { UserDbAccess } from "../src/User/UserDBAccess";
+import { UserCredentialsDBAccess } from "../Authorization/UserCredentialsDbAccess";
+import { UserDbAccess } from "../User/UserDBAccess";
 
 class DbTest {
     public dbAccess: UserCredentialsDBAccess = new UserCredentialsDBAccess();
