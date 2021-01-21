@@ -1,10 +1,12 @@
 import { IncomingMessage, ServerResponse } from "http";
 import { AccessRights, HTTP_CODES, HTTP_METHODS, User } from "../Shared/Model";
+import { countInstances } from "../Shared/ObjectsCounter";
 import { UserDbAccess } from "../User/UserDBAccess";
 import { BaseRequestHandler } from "./BaseRequestHandler";
 import { TokenValidator } from "./Model";
 import { Utils } from "./Utils";
 
+@countInstances
 export class UserHandler extends BaseRequestHandler {
 
     private userDbAccess: UserDbAccess = new UserDbAccess();
@@ -32,7 +34,7 @@ export class UserHandler extends BaseRequestHandler {
     private async handlePut() {
         try {
             const operationAuthorized = await this.operationAuthorized(AccessRights.CREATE);
-            if(operationAuthorized) {
+            if (operationAuthorized) {
                 const user: User = await this.getRequestBody();
                 await this.userDbAccess.putUser(user);
                 this.respondText(HTTP_CODES.CREATED, `user ${user.name} is created`);
@@ -43,11 +45,11 @@ export class UserHandler extends BaseRequestHandler {
             this.respondBadRequest(`Error: ${error.message}`);
         }
     }
-    
+
     private async handleGet() {
         try {
             const operationAuthorized = await this.operationAuthorized(AccessRights.READ);
-            if(operationAuthorized) {
+            if (operationAuthorized) {
                 const parsedUrl = Utils.getUrlParams(this.req.url);
                 if (parsedUrl?.query.id) {
                     const user = await this.userDbAccess.getUserById(parsedUrl?.query.id as string);
@@ -56,7 +58,7 @@ export class UserHandler extends BaseRequestHandler {
                     } else {
                         this.handleNotFound();
                     }
-                } else if(parsedUrl?.query.name) {
+                } else if (parsedUrl?.query.name) {
                     const users = await this.userDbAccess.getUserByName(parsedUrl?.query.name as string);
                     this.respondJsonObject(HTTP_CODES.OK, users);
                 } else {
