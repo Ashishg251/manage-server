@@ -1,12 +1,14 @@
 import { Account, SessionToken, TokenGenerator, TokenRights, TokenState, TokenValidator } from "../Server/Model";
+import { countInstances } from "../Shared/ObjectsCounter";
 import { SessionTokenDbAccess } from "./SessionTokenDbAccess";
 import { UserCredentialsDBAccess } from "./UserCredentialsDbAccess";
 
+@countInstances
 export class Authorizer implements TokenGenerator, TokenValidator {
 
     private userCredentialDbAccess: UserCredentialsDBAccess = new UserCredentialsDBAccess();
     private sessionTokenDbAccess: SessionTokenDbAccess = new SessionTokenDbAccess();
-    
+
     public async generateToken(account: Account): Promise<SessionToken | undefined> {
         try {
             const resultAccount = await this.userCredentialDbAccess.getUserCredential(account.username, account.password);
@@ -31,7 +33,7 @@ export class Authorizer implements TokenGenerator, TokenValidator {
     }
 
     private generateExpirationTime(): Date {
-        return new Date(Date.now() + 60*60*1000);
+        return new Date(Date.now() + 60 * 60 * 1000);
     }
 
     private generateRandomTokenId(): string {
@@ -45,7 +47,7 @@ export class Authorizer implements TokenGenerator, TokenValidator {
                 accessRights: [],
                 state: TokenState.INVALID
             }
-        } else if(token.expirationTime < new Date()) {
+        } else if (token.expirationTime < new Date()) {
             return {
                 accessRights: [],
                 state: TokenState.EXPIRED

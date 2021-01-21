@@ -1,5 +1,6 @@
 import { createServer, IncomingMessage, ServerResponse } from 'http'
 import { Authorizer } from '../Authorization/Authorizer';
+import { Monitor } from '../Shared/ObjectsCounter';
 import { LoginHandler } from './LoginHandler';
 import { UserHandler } from './UserHandler';
 import { Utils } from './Utils';
@@ -13,11 +14,14 @@ export class Server {
     }
 
     public createServer() {
-        createServer(async (req: IncomingMessage, res: ServerResponse)=>{
+        createServer(async (req: IncomingMessage, res: ServerResponse) => {
             console.log("Received request from ", req.url);
             const basePath = Utils.getUrlBasePath(req.url);
 
             switch (basePath) {
+                case 'systemInfo':
+                    res.write(Monitor.printInstances());
+                    break;
                 case 'login':
                     await new LoginHandler(req, res, this.authorizer).handleRequest();
                     break;
